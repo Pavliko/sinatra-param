@@ -48,7 +48,7 @@ module Sinatra
 
       begin
         params[name] = coerce(params[name], type, options)
-        params[name] = options[:default] if params[name].nil? and options[:default]
+        params[name] = options[:default] if (params[name].nil? || params[name] == '') and options[:default]
         if options[:transform]
           options[:transform] = [options[:transform]] unless [options[:transform]].is_a?(Array)
           params[name] = params[name].send(*options[:transform])

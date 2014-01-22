@@ -71,7 +71,12 @@ class App < Sinatra::Base
     params.to_json
   end
 
-  get '/default' do
+  get '/default/nil' do
+    param :sort, String, default: "title"
+    params.to_json
+  end
+
+  get '/default/empty' do
     param :sort, String, default: "title"
     params.to_json
   end

@@ -44,13 +44,15 @@ module Sinatra
 
     def param(name, type, options = {})
       name = name.to_s
-
       return unless params.member?(name) or present?(options[:default]) or options[:required]
 
       begin
         params[name] = coerce(params[name], type, options)
         params[name] = options[:default] if params[name].nil? and options[:default]
-        params[name] = options[:transform].to_proc.call(params[name]) if options[:transform]
+        if options[:transform]
+          options[:transform] = [options[:transform]] unless [options[:transform]].is_a?(Array)
+          params[name] = params[name].send(*options[:transform])
+        end
         validate!(params[name], options)
       rescue InvalidParameterError => error
         response_body = if content_type and content_type.match(mime_type(:json))

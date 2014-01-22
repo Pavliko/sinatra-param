@@ -11,10 +11,17 @@ describe 'Parameter Transformations' do
   end
 
   describe 'transform' do
-    it 'transforms the input using to_proc' do
-      get('/transform', order: 'asc') do |response|
+    it 'simple transforms the input using send' do
+      get('/transform/simple', order: 'asc') do |response|
         response.status.should == 200
         JSON.parse(response.body)['order'].should == 'ASC'
+      end
+    end
+
+    it 'simple transforms the input using send' do
+      get('/transform/with_params', month: '2014-01-20') do |response|
+        response.status.should == 200
+        JSON.parse(response.body)['month'].should == '2014-01-01'
       end
     end
   end

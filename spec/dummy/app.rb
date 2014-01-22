@@ -86,8 +86,13 @@ class App < Sinatra::Base
     params.to_json
   end
 
-  get '/transform' do
+  get '/transform/simple' do
     param :order, String, transform: :upcase
+    params.to_json
+  end
+
+  get '/transform/with_params' do
+    param :month, Date, transform: [:strftime, '%Y-%m-01']
     params.to_json
   end
 
